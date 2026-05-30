@@ -23,8 +23,8 @@ An autonomous AI agent that seamlessly bridges the gap between raw video data an
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/autonomous-content-agent.git
-cd autonomous-content-agent
+git clone https://github.com/aj2412/Autonomous-Content-Orchestration-Agent.git
+cd Autonomous-Content-Orchestration-Agent
 ```
 
 ### 2. Create the Virtual Environment
