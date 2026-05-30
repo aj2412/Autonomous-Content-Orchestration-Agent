@@ -1,0 +1,6 @@
+yt-dlp
+google-genai
+python-dotenv
+chromadb
+youtube-transcript-api
+langchain-text-splitters

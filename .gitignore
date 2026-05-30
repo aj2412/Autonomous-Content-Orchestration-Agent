@@ -1,0 +1,13 @@
+# Environments
+.env
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Local databases and state
+memory_bank.json
+chroma_db/
+
+# OS files
+.DS_Store
