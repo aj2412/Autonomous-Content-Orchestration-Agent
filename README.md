@@ -13,33 +13,38 @@ An autonomous AI agent that seamlessly bridges the gap between raw video data an
 ## 🏗️ Architecture Flow
 
 1. **Scraper (`youtube_fetcher.py`)**: Uses `yt-dlp` to fetch the latest video metadata from YouTube.
-2. **Gatekeeper (`memory_manager.py`)**: Checks the persistent memory bank to ensure absolute novelty. 
+2. **Gatekeeper (`memory_manager.py`)**: Checks the persistent memory bank to ensure absolute novelty.
 3. **Data Miner (`transcript_service.py`)**: Extracts transcripts and dynamically handles translation if required.
 4. **Vector Brain (`rag_engine.py`)**: Chunks the transcript, embeds the text using `text-embedding-004`, and indexes it in `ChromaDB`.
-5. **Synthesizer (`content_engine.py`)**: Semantically queries the vector database for actionable frameworks and forces the LLM to write the post using *only* the retrieved facts.
+5. **Synthesizer (`content_engine.py`)**: Semantically queries the vector database for actionable frameworks and forces the LLM to write the post using _only_ the retrieved facts.
 6. **Delivery (`email_sender.py`)**: Packages the output and dispatches the brief.
 
 ## 🚀 Setup & Installation
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/aj2412/Autonomous-Content-Orchestration-Agent.git
 cd Autonomous-Content-Orchestration-Agent
 ```
 
 ### 2. Create the Virtual Environment
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Configure Environment Variables
+
 Create a `.env` file in the root directory and add the following keys:
+
 ```env
 # AI Engine
 GEMINI_API_KEY="your_google_gemini_api_key"
@@ -58,13 +63,25 @@ RECEIVER_EMAIL="executive-email@gmail.com"
 ## 🛠️ Usage
 
 Simply execute the main orchestration script:
+
 ```bash
 ./run.sh
 ```
-*Note: To run this completely autonomously, you can configure a macOS `cron` job to execute this script on a set schedule (e.g., every Monday and Wednesday at 6:00 AM).*
+
+_Note: To run this completely autonomously, you can configure a macOS `cron` job to execute this script on a set schedule (e.g., To run the script automatically every Monday and Wednesday at 6:00 AM, add the following cron job:_)
+
+```bash
+crontab -e
+cron
+0 6 * * 1,3 /full/path/to/run.sh
+```
+
+_Replace `/full/path/to/run.sh` with the absolute path to your script._
 
 ## ⚠️ Notes on IP Blocking
+
 If you run the script too aggressively during testing, YouTube may temporarily block your IP from accessing transcripts (`HTTP 429 Too Many Requests`). If this happens, you can either:
+
 1. Wait 24 hours for the block to lift.
 2. Connect your machine to a Mobile Hotspot (which provides a fresh residential IP).
 3. Configure a residential proxy in your `.env` file (`YOUTUBE_PROXY_URL`).
