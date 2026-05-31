@@ -31,7 +31,7 @@ class GeminiEmbeddingFunction(chromadb.EmbeddingFunction):
 class RagEngine:
     def __init__(self):
         # Initialize persistent ChromaDB in the current directory
-        db_path = os.path.join(os.path.dirname(__file__), "chroma_db")
+        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "chroma_db")
         self.chroma_client = chromadb.PersistentClient(path=db_path)
         
         api_key = os.getenv("GEMINI_API_KEY")

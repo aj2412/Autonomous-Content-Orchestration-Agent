@@ -5,7 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-MEMORY_FILE = os.path.join(os.path.dirname(__file__), 'memory_bank.json')
+MEMORY_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'memory_bank.json')
 
 def load_memory():
     if not os.path.exists(MEMORY_FILE):
