@@ -5,6 +5,7 @@ from memory_manager import is_concept_used, log_concept
 from email_sender import send_daily_brief
 from transcript_service import fetch_transcript
 from rag_engine import RagEngine
+from content_engine import generate_linkedin_post
 import logging
 
 logging.basicConfig(

@@ -1,6 +1,7 @@
 import os
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import GenericProxyConfig
+from google import genai
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,6 +27,36 @@ def fetch_transcript(video_url):
     Attempts to fetch the full transcript for a given YouTube URL.
     Returns the full combined text, or None if transcripts are disabled.
     """
+    # Check if we should bypass YouTube and use a local file for testing
+    use_local = os.getenv("USE_LOCAL_TRANSCRIPT", "false").lower() == "true"
+    if use_local:
+        local_path = os.getenv("LOCAL_TRANSCRIPT_PATH")
+        if local_path and os.path.exists(local_path):
+            logger.info(f"Using local transcript file: {local_path}")
+            with open(local_path, 'r', encoding='utf-8') as f:
+                raw_text = f.read()
+                
+            logger.info("Translating local transcript to English before returning...")
+            try:
+                # Use Gemini to translate the text to English before storing in Chroma
+                api_key = os.getenv("GEMINI_API_KEY")
+                if api_key:
+                    client = genai.Client(api_key=api_key)
+                    # We use gemini-2.5-flash-lite which is the absolute lowest cost and fastest model available
+                    response = client.models.generate_content(
+                        model='gemini-2.5-flash-lite',
+                        contents=f"Translate the following transcript to English. Return ONLY the English translation, nothing else:\n\n{raw_text}"
+                    )
+                    return response.text
+                else:
+                    return raw_text
+            except Exception as e:
+                logger.error(f"Error translating local transcript: {e}")
+                return raw_text
+        else:
+            logger.error(f"Local transcript file not found at path: {local_path}")
+            return None
+
     video_id = get_video_id(video_url)
     if not video_id:
         print(f"Could not parse video ID from {video_url}")

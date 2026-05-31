@@ -16,16 +16,16 @@ class GeminiEmbeddingFunction(chromadb.EmbeddingFunction):
         embeddings = []
         for doc in input:
             try:
-                # We use text-embedding-004 which is the recommended Gemini embedding model
+                # We use gemini-embedding-001 which is the available model in v1beta
                 response = self.client.models.embed_content(
-                    model="text-embedding-004",
+                    model="gemini-embedding-001",
                     contents=doc
                 )
                 embeddings.append(response.embeddings[0].values)
             except Exception as e:
                 logger.error(f"Error generating embedding: {e}")
-                # Fallback zero vector if embedding fails to prevent crash
-                embeddings.append([0.0] * 768) 
+                # Fallback zero vector if embedding fails to prevent crash (3072 dimensions)
+                embeddings.append([0.0] * 3072) 
         return embeddings
 
 class RagEngine:
