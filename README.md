@@ -14,8 +14,8 @@ An autonomous AI agent that seamlessly bridges the gap between raw video data an
 
 1. **Scraper (`youtube_fetcher.py`)**: Uses `yt-dlp` to fetch the latest video metadata from YouTube.
 2. **Gatekeeper (`memory_manager.py`)**: Checks the persistent memory bank to ensure absolute novelty.
-3. **Data Miner (`transcript_service.py`)**: Extracts transcripts and dynamically handles translation if required.
-4. **Vector Brain (`rag_engine.py`)**: Chunks the transcript, embeds the text using `text-embedding-004`, and indexes it in `ChromaDB`.
+3. **Data Miner (`transcript_service.py`)**: Extracts transcripts and dynamically handles high-speed translation to English using `gemini-2.5-flash-lite`.
+4. **Vector Brain (`rag_engine.py`)**: Chunks the transcript, embeds the text using the dense `gemini-embedding-001` model (3072 dimensions), and indexes it in `ChromaDB`.
 5. **Synthesizer (`content_engine.py`)**: Semantically queries the vector database for actionable frameworks and forces the LLM to write the post using _only_ the retrieved facts.
 6. **Delivery (`email_sender.py`)**: Packages the output and dispatches the brief.
 
@@ -54,6 +54,10 @@ YOUTUBE_SEARCH_QUERY="AI Business Growth"
 YOUTUBE_CHANNELS="" # Optional: comma separated channel IDs
 # YOUTUBE_PROXY_URL="http://username:password@proxy-domain:port" # Uncomment to bypass IP bans
 
+# Local Testing / IP Ban Workaround
+# USE_LOCAL_TRANSCRIPT="true"
+# LOCAL_TRANSCRIPT_PATH="./sample_transcript.txt"
+
 # Email Delivery (Must use Gmail App Passwords, NOT your standard password)
 EMAIL_SENDER="your-email@gmail.com"
 EMAIL_PASSWORD="your-16-digit-app-password"
@@ -85,3 +89,4 @@ If you run the script too aggressively during testing, YouTube may temporarily b
 1. Wait 24 hours for the block to lift.
 2. Connect your machine to a Mobile Hotspot (which provides a fresh residential IP).
 3. Configure a residential proxy in your `.env` file (`YOUTUBE_PROXY_URL`).
+4. **Bypass YouTube Entirely:** Download the transcript manually into a `.txt` file, place it in the folder, and set `USE_LOCAL_TRANSCRIPT="true"` in your `.env` file.
